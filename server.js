@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Run when client connects
 io.on('connection', socket => {
-    
+    console.log(socket.id)
     // join room
     socket.on('joinRoom', ({username, room }) => {
         const user = userJoin(socket.id, username, room)
@@ -52,6 +52,6 @@ io.on('connection', socket => {
     })
 })
 
-const PORT = 3000 || process.env.PORT
+const PORT = 4000 || process.env.PORT
 
 server.listen(PORT, ()=> console.log(`Server runnig on port: ${PORT}`))
