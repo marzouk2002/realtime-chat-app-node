@@ -6,14 +6,18 @@ const formatMessage = require('./utils/messages')
 const  { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users')
 const app = express();
 const server = http.createServer(app)
-const io = socketio(server)
+const io = socketio(server, {
+    cors: {
+      origin: "*",
+      credentials: true
+    }
+  })
 const botname = 'ChatCorde'
 // Set static
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Run when client connects
 io.on('connection', socket => {
-    console.log(socket.id)
     // join room
     socket.on('joinRoom', ({username, room }) => {
         const user = userJoin(socket.id, username, room)
@@ -51,6 +55,7 @@ io.on('connection', socket => {
         })
     })
 })
+
 
 const PORT = 4000 || process.env.PORT
 
