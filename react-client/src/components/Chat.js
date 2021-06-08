@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 function useQuery() {
@@ -6,9 +6,19 @@ function useQuery() {
 }
 
 function Chat() {
+    const [ newMsg, setNewMsg ] = useState('') 
+
     const locationState = useQuery()
     const roomName = locationState.get('room')
     const userName = locationState.get('username')
+
+    const handleSendMessage = (e) => {
+        e.preventDefault()
+    }
+
+    const handTypeMsg = (e) => {
+        setNewMsg(e.target.value)
+    }
 
     return (
     <div className="chat-container">
@@ -28,13 +38,15 @@ function Chat() {
             </div>
         </main>
         <div className="chat-form-container">
-            <form id="chat-form">
+            <form onSubmit={handleSendMessage}>
                 <input
                 id="msg"
                 type="text"
                 placeholder="Enter Message"
                 required
                 autoComplete="off"
+                onChange={handTypeMsg}
+                value={newMsg}
                 />
                 <button className="btn"><i className="fas fa-paper-plane"></i> Send</button>
             </form>
